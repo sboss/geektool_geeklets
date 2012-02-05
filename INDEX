@@ -1,0 +1,7 @@
+list of geeklets/geeklet scripts:
+
+mac_info_geeklet.pl:
+type       : script (perl)
+tested on  : Lion (10.7)
+description: displays basic information about the Mac (processors, RAM, 
+             hostname)
