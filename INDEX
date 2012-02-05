@@ -4,7 +4,7 @@ mac_info_geeklet.pl:
 type       : script (perl)
 tested on  : Lion (10.7)
 description: displays basic information about the Mac (processors, RAM, 
-             hostname)
+             hostname, OS version)
 
 
 worldtime_geeklet.pl:
@@ -14,6 +14,7 @@ parameters : -prefs <prefs filename>
              -locationfirst [optional one]
 description: displays the current time in multiple timezones at once. great
              if you work with lots of people in other timezones.
+
 
 worldtime_geeklet.prefs
 type       : configuration file

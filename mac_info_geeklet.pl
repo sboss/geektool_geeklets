@@ -3,12 +3,11 @@
 $|=1;
 #
 #
-# sw_vers | awk -F':\t' '{print $2}' | paste -d ' ' - - -;
-#
 #
 #
 my $SCUTIL = '/usr/sbin/scutil';
 my $SYSCTL = '/usr/sbin/sysctl';
+my $SWVERS = '/usr/bin/sw_vers';
 #
 #
 sub getComputerName
@@ -43,12 +42,41 @@ sub getMemory
 		close PFH;
 		chomp $retval;
 		$retval = int( $retval/1073741824 );
-		return $retval;
+		return "${retval} Gig RAM";
 		}
 #
 #
+sub getOSVersion
+		{
+		open (PFH, "$SWVERS |");
+		my $productname = <PFH>;
+		my $productver = <PFH>;
+		my $buildver = <PFH>;
+		close PFH;
+		chomp $productname;
+		chomp $productver;
+		chomp $buildver;
+		($junk,$productname) = split(/:/,$productname);
+		($junk,$productver) = split(/:/,$productver);
+		($junk,$buildver) = split(/:/,$buildver);
+		$productname =~ s#^\s+##;
+		$productver =~ s#^\s+##;
+		$buildver =~ s#^\s+##;
+		return "$productname  $productver ($buildver)";
+		}
+#
 # MAIN
+my @LEFT=();
+my @RIGHT=();
+push @LEFT, split( /\n/, &getOSVersion );
+push @LEFT, split( /\n/, &getMemory );
+push @RIGHT, split( /\n/, &getCPU );
+
 printf "%s\n", &getComputerName;
-# this is where the O/S related info will be (once it is written).
-printf "%d GB RAM\n", &getMemory;
-printf "%s\n", &getCPU;
+print "-------------------------------------------------------------\n";
+while ($#LEFT > -1 || $#RIGHT > -1)
+	{
+	my $l = ( $#LEFT > -1 ? shift @LEFT : "");
+	my $r = ( $#RIGHT > -1 ? shift @RIGHT : "");
+	printf "%-30s %s\n", $l,$r;
+	}
