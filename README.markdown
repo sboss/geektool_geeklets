@@ -10,3 +10,8 @@ here is the list of geeklets/scripts that is included:
 *	github\_scores\_geeklet.pl
 
 check out `INDEX` for details about each geeklet/script.
+
+Advice
+======
+
+most of these geeklets/scripts output works best with a fixed width fonts.  The best one that I have found is [DejaVue](http://dejavu-fonts.org/) Sans Mono.  That font group is released under a "Free License".
