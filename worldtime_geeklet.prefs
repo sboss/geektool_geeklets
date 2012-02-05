@@ -1,0 +1,12 @@
+#
+# worldtime_geeklet.pl prefs file
+#   this lists the locations that you want displayed
+#   format:
+#       <location>;<timezone>
+#   example:
+#       Atlanta, GA;America/New_York
+#       London, UK;Europe/London
+#
+Atlanta, GA;America/New_York
+London, UK;Europe/London
+Sydney, AU;Australia/Sydney

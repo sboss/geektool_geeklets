@@ -5,3 +5,18 @@ type       : script (perl)
 tested on  : Lion (10.7)
 description: displays basic information about the Mac (processors, RAM, 
              hostname)
+
+
+worldtime_geeklet.pl:
+type       : script (perl)
+tested on  : Lion (10.7)
+parameters : -prefs <prefs filename>
+             -locationfirst [optional one]
+description: displays the current time in multiple timezones at once. great
+             if you work with lots of people in other timezones.
+
+worldtime_geeklet.prefs
+type       : configuration file
+description: sample configuration file for the worldtime_geeklet.pl script.
+             follow the example on the inside of the file. lines that start
+             with "#" are comments and are ignored by the script.
