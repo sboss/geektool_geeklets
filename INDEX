@@ -21,3 +21,9 @@ type       : configuration file
 description: sample configuration file for the worldtime_geeklet.pl script.
              follow the example on the inside of the file. lines that start
              with "#" are comments and are ignored by the script.
+
+github_scores_geeklet.pl:
+type       : script (perl)
+tested on  : Lion (10.7)
+description: displays the Github scores for one (or more) repositories.
+             not very useful but it was fun to write. 
