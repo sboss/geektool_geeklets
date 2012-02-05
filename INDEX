@@ -27,3 +27,10 @@ type       : script (perl)
 tested on  : Lion (10.7)
 description: displays the Github scores for one (or more) repositories.
              not very useful but it was fun to write. 
+
+
+yahoo_weather_geeklet.pl:
+type       : script (perl)
+tested on  : Lion (10.7)
+description: displays the weather for a given zipcode.  currently it does 30101.
+             not very useful for most, but it will be fixed in future versions. 
