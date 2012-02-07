@@ -82,7 +82,7 @@ sub getGitBranchStatus
 		{
 		if ( grep( /\: /,$line) ) 
 			{ 
-			$count++; print $line;
+			$count++; 
 			}
 		}
 	close PFH;
