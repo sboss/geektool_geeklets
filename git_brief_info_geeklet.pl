@@ -146,7 +146,9 @@ sub getRemoteStatus
 		$retval = substr( $line,0,index( $line," ") );
 		}
 	close PFH;
-	return $retval;
+	if ( lc $retval eq "ahead" ) { return "↑"; }
+	elsif ( lc $retval eq "behind" ) { return "↓"; }
+	else { return $retval; }
 	}
 #
 sub printGitInfo
@@ -154,7 +156,7 @@ sub printGitInfo
 	my ( $header,$id,$path ) = @_;
 	if ( $header)
 		{
-		printf "%-7s  %-10s  %-8s  %s\n%-7s  %-10s  %-8s  %s\n", "commit","branch","remote","git repo name","-------","----------","--------","--------------------------------";
+		printf "%-7s  %-10s  %1s  %s\n%-7s  %-10s  %1s  %s\n", "commit","branch","r","git repo name","-------","----------","-","--------------------------------";
 		}
 	else
 		{
@@ -168,7 +170,7 @@ sub printGitInfo
 		$commitBranch = &getGitBranchName( $path );
 		$commitRemote = &getRemoteStatus( $path );
 				
-		printf "%-7s  %-10s  %-8s  %s\n", $commitID, $commitBranch, $commitRemote, $id . " " . $commitStatus;			
+		printf "%-7s  %-10s  %1s  %s\n", $commitID, $commitBranch, $commitRemote, $id . " " . $commitStatus;			
 		}
 
 	}
