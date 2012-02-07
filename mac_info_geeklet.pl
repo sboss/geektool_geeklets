@@ -30,8 +30,9 @@ sub getCPU
 	my $retval =  <PFH>;
 	close PFH;
 	chomp $retval;
-	my ($top,$bottom) = split(/   /,$retval);
-	$retval = "$top\n$bottom";
+	my ($top,$bottom) = split(/ CPU /,$retval);
+	$bottom =~ s#^\s+##;
+	$retval = "$top CPU\n  $bottom";
 	return $retval;
 	}
 #
