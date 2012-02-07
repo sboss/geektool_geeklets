@@ -95,7 +95,7 @@ sub getGitBranchStatus
 		}
 	}
 #
-sub getRemoteStatus
+sub OLDOLDOLDgetRemoteStatus
 	{
 	my ( $path, $commitID ) = @_;
 
@@ -128,12 +128,33 @@ sub getRemoteStatus
 	
 	}
 #
+sub getRemoteStatus
+	{
+	my ( $path ) = @_;
+	my $retval='';
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager remote update", $gitBIN, $path;
+	open (PFH, "$CMD |");
+	my $junk = <PFH>;
+	close PFH;
+	
+	$CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager status -uno", $gitBIN, $path;
+	open( PFH, "$CMD |");
+	foreach my $line ( <PFH> )
+		{
+		next if !grep( /# Your branch is/,$line );
+		$line =~ s/# Your branch is //;
+		$retval = substr( $line,0,index( $line," ") );
+		}
+	close PFH;
+	return $retval;
+	}
+#
 sub printGitInfo
 	{
 	my ( $header,$id,$path ) = @_;
 	if ( $header)
 		{
-		printf "%-7s  %-10s  %s\n%-7s  %-10s  %s\n", "commit","branch","git repo name","-------","----------","--------------------------------";
+		printf "%-7s  %-10s  %-8s  %s\n%-7s  %-10s  %-8s  %s\n", "commit","branch","remote","git repo name","-------","----------","--------","--------------------------------";
 		}
 	else
 		{
@@ -145,9 +166,9 @@ sub printGitInfo
 		$commitID = substr( $line,0,index( $line," " ) );
 		$commitStatus = &getGitBranchStatus( $path );
 		$commitBranch = &getGitBranchName( $path );
-		$commitRemote = &getRemoteStatus( $path,$commitID );
-		
-		printf "%-7s  %-10s  %s\n", $commitID, $commitBranch, $id . " " . $commitStatus . $commitRemote;			
+		$commitRemote = &getRemoteStatus( $path );
+				
+		printf "%-7s  %-10s  %-8s  %s\n", $commitID, $commitBranch, $commitRemote, $id . " " . $commitStatus;			
 		}
 
 	}
