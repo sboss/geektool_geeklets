@@ -59,7 +59,7 @@ sub getGitBranchName
 	{
 	my ( $path ) = @_;
 	my $branch='';
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager branch", $gitBIN, $path;
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager branch", $gitBIN, $path,$path;
 	open(PFH, "$CMD |");
 	foreach my $line (<PFH>)
 		{
@@ -75,13 +75,14 @@ sub getGitBranchStatus
 	{
 	my ( $path ) = @_;
 	my $count=0;
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager status", $gitBIN, $path;
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager status", $gitBIN, $path,$path;
+
 	open(PFH, "$CMD |");
 	foreach my $line (<PFH>)
 		{
-		if ( grep( /:/,$line) ) 
+		if ( grep( /\: /,$line) ) 
 			{ 
-			$count++; 
+			$count++; print $line;
 			}
 		}
 	close PFH;
@@ -92,6 +93,7 @@ sub getGitBranchStatus
 	else
 		{
 		return "⚡";
+
 		}
 	}
 #
@@ -132,12 +134,12 @@ sub getRemoteStatus
 	{
 	my ( $path ) = @_;
 	my $retval='';
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager remote update", $gitBIN, $path;
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager remote update", $gitBIN, $path,$path;
 	open (PFH, "$CMD |");
 	my $junk = <PFH>;
 	close PFH;
 	
-	$CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager status -uno", $gitBIN, $path;
+	$CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager status -uno", $gitBIN, $path,$path;
 	open( PFH, "$CMD |");
 	foreach my $line ( <PFH> )
 		{
