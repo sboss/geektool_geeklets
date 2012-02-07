@@ -9,6 +9,8 @@ here is the list of geeklets/scripts that is included:
 *	worldtime\_geeklet.pl (w/ worldtime\_geeklet.prefs )
 *	github\_scores\_geeklet.pl
 *	yahoo\_weather\_geeklet.pl
+*	git\_brief\_info\_geeklet.pl
+
 
 check out `INDEX` for details about each geeklet/script.
 

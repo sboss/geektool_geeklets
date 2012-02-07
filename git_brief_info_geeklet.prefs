@@ -1,0 +1,8 @@
+#
+# git_brief_info_geeklet.pl prefs file
+#   this lists the locations that you want displayed
+#   format:
+#       gitreponame;path
+#   example:
+#		geektool_geeklets;/Users/sboss/git/geektool_geeklets
+#

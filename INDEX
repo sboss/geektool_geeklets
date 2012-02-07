@@ -22,6 +22,7 @@ description: sample configuration file for the worldtime_geeklet.pl script.
              follow the example on the inside of the file. lines that start
              with "#" are comments and are ignored by the script.
 
+
 github_scores_geeklet.pl:
 type       : script (perl)
 tested on  : Lion (10.7)
@@ -34,3 +35,20 @@ type       : script (perl)
 tested on  : Lion (10.7)
 description: displays the weather for a given zipcode.  currently it does 30101.
              not very useful for most, but it will be fixed in future versions. 
+
+
+git_brief_info_geeklet.pl:
+type       : script (perl)
+tested on  : Lion (10.7)
+parameters : -prefs <prefs filename>
+description: displays the current git status do the git repositories. Used to
+             to keep you update to the current status and if they need to be
+             commited/synced (push/pull).
+
+
+git_brief_info_geeklet.prefs
+type       : configuration file
+description: sample configuration file for the git_brief_info_geeklet.pl
+			 script. follow the example on the inside of the file. lines that
+			 start with "#" are comments and are ignored by the script.
+
