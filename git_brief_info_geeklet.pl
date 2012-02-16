@@ -59,7 +59,7 @@ sub getGitBranchName
 	{
 	my ( $path ) = @_;
 	my $branch='';
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager branch", $gitBIN, $path,$path;
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager branch", $gitBIN, $path;
 	open(PFH, "$CMD |");
 	foreach my $line (<PFH>)
 		{
@@ -75,12 +75,11 @@ sub getGitBranchStatus
 	{
 	my ( $path ) = @_;
 	my $count=0;
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager status", $gitBIN, $path,$path;
-
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager status", $gitBIN, $path;
 	open(PFH, "$CMD |");
 	foreach my $line (<PFH>)
 		{
-		if ( grep( /\: /,$line) ) 
+		if ( grep( /:/,$line) ) 
 			{ 
 			$count++; 
 			}
@@ -93,7 +92,6 @@ sub getGitBranchStatus
 	else
 		{
 		return "⚡";
-
 		}
 	}
 #
@@ -134,23 +132,32 @@ sub getRemoteStatus
 	{
 	my ( $path ) = @_;
 	my $retval='';
-	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager remote update", $gitBIN, $path,$path;
+	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager remote", $gitBIN, $path;
 	open (PFH, "$CMD |");
 	my $junk = <PFH>;
 	close PFH;
-	
-	$CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager status -uno", $gitBIN, $path,$path;
-	open( PFH, "$CMD |");
-	foreach my $line ( <PFH> )
+	if ( length( $junk ) > 0 ) # there are remotes
 		{
-		next if !grep( /# Your branch is/,$line );
-		$line =~ s/# Your branch is //;
-		$retval = substr( $line,0,index( $line," ") );
+		$CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager remote update", $gitBIN, $path;
+		open (PFH, "$CMD |");
+		my $junk = <PFH>;
+		close PFH;
+			
+		$CMD = sprintf "%s --git-dir=\"%s/.git\" --no-pager status -uno", $gitBIN, $path;
+		open( PFH, "$CMD |");
+		foreach my $line ( <PFH> )
+			{
+			next if !grep( /# Your branch is/,$line );
+			$line =~ s/# Your branch is //;
+			$retval = substr( $line,0,index( $line," ") );
+			}
+		close PFH;
+		if ( lc $retval eq "ahead" ) { return "↑"; }
+		elsif ( lc $retval eq "behind" ) { return "↓"; }
+			#elsif ( $retval eq "" ) { return "∅"; }
+		else { return $retval; }	
 		}
-	close PFH;
-	if ( lc $retval eq "ahead" ) { return "↑"; }
-	elsif ( lc $retval eq "behind" ) { return "↓"; }
-	else { return $retval; }
+	else { return "∅"; } #no remotes
 	}
 #
 sub printGitInfo
