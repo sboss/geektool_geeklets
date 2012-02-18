@@ -179,7 +179,7 @@ sub printGitInfo
 		$commitBranch = &getGitBranchName( $path );
 		$commitRemote = &getRemoteStatus( $path );
 				
-		printf "%-7s  %-10s  %1s  %s\n", $commitID, $commitBranch, $commitRemote, $id . " " . $commitStatus;			
+		printf "%-7s  %-10s  %1s  %s\n", $commitID, substr( $commitBranch,0,10 ), $commitRemote, $id . " " . $commitStatus;			
 		}
 
 	}
