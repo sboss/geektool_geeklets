@@ -142,7 +142,7 @@ sub printGitInfo
 	my ( $header,$id,$path ) = @_;
 	if ( $header)
 		{
-		printf "%-7s  %-10s  %1s  %s\n%-7s  %-10s  %1s  %s\n", "commit","branch","r","git repo name","-------","----------","-","--------------------------------";
+		printf "%-7s  %-10s  %2s  %s\n%-7s  %-10s  %1s%1s  %s\n", "commit","branch","lr","git repo name","-------","----------","-","-","--------------------------------";
 		}
 	else
 		{
@@ -156,7 +156,7 @@ sub printGitInfo
 		$commitBranch = &getGitBranchName( $path );
 		$commitRemote = &getRemoteStatus( $path );
 				
-		printf "%-7s  %-10s  %1s  %s\n", $commitID, substr( $commitBranch,0,10 ), $commitRemote, $id . " " . $commitStatus;			
+		printf "%-7s  %-10s  %1s%1s  %s\n", $commitID, substr( $commitBranch,0,10 ), $commitStatus, $commitRemote, $id;			
 		}
 
 	}
