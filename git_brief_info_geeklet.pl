@@ -7,6 +7,7 @@ $| = 1;                                ## Don't buffer
 #use warnings;                         ## dont use this one always
 #                                      ## rest of the USEs are tested to make sure they are there.
 use Getopt::Long;
+use Term::ANSIColor;
 #
 ## For testing
 eval "use Data::Dumper";
@@ -29,6 +30,7 @@ GetOptions ( 'prefs|prefsfile|preferencefile=s' => \$prefile,
 #
 # GLOBALs
 my $gitBIN = '/usr/local/git/bin/git';
+my $NOSSH  = '/tmp/NOSSH';
 #
 my %gitRepoPaths ; #= {};
 #
@@ -108,7 +110,11 @@ sub getGitBranchStatus
 sub getRemoteStatus
 	{
 	my ( $path ) = @_;
-	my $retval='';
+	if ( -f $NOSSH )
+		{
+		return "*";
+		}
+	my $retval=' ';
 	my $CMD = sprintf "%s --git-dir=\"%s/.git\" --work-tree=\"%s\" --no-pager remote", $gitBIN, $path,$path;
 	open (PFH, "$CMD |");
 	my $junk = <PFH>;
@@ -151,12 +157,37 @@ sub printGitInfo
 		my $line = <PFH>;
 		close PFH;
 
-		$commitID = substr( $line,0,index( $line," " ) );
-		$commitStatus = &getGitBranchStatus( $path );
-		$commitBranch = &getGitBranchName( $path );
-		$commitRemote = &getRemoteStatus( $path );
+		my $localStatus = &getGitBranchStatus( $path );
+		my $localStatusB = (  $localStatus ne "" ? 0 : 1 );
+		
+		$commitID = sprintf "%-7s", substr( $line,0,index( $line," " ) );
+		if ( $localStatusB )
+			{
+		 	print colored ( $commitID, white ) . "  ";	
+			}
+		else
+			{
+			print colored ( $commitID, red ) . "  ";	
+			}
+		
+		$commitBranch = sprintf "%-10s", substr( &getGitBranchName( $path ),0,10);
+		if ( $commitBranch eq "master    " ) { print colored ( $commitBranch, green); }
+		else { print colored ( $commitBranch, white ); }
+		print "  ";
+		
+		#commitStatus = &getGitBranchStatus( $path );
+		if ( $localStatusB )
+			{
+			print " ";
+			}
+		else
+			{
+			print colored ( $localStatus,red );
+			}
+		
+		print colored (&getRemoteStatus( $path ), red );
 				
-		printf "%-7s  %-10s  %1s%1s  %s\n", $commitID, substr( $commitBranch,0,10 ), $commitStatus, $commitRemote, $id;			
+		printf "  %s\n", $id;			
 		}
 
 	}
