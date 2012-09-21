@@ -18,3 +18,7 @@ Advice
 ======
 
 most of these geeklets/scripts output works best with a fixed width fonts.  The best one that I have found is [DejaVue](http://dejavu-fonts.org/) Sans Mono.  That font group is released under a "Free License".
+
+## contributors
+
+[sboss]( https://github.com/sboss "sboss" )  [![endorse](http://api.coderwall.com/sboss/endorsecount.png)](http://coderwall.com/sboss)
